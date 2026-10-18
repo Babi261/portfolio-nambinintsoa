@@ -532,6 +532,8 @@
       .contact-link { grid-template-columns: 40px minmax(0, 1fr) 24px; gap: .65rem; padding: .7rem; }
       .contact-link-icon { width: 40px; height: 40px; }
       .contact-link-label { font-size: .9rem; }
+      .footer-links { display: block; }
+      .footer-links a + a { margin-top: .7rem; }
       .mobile-contact-cta { position: fixed; z-index: 19; bottom: max(1rem, env(safe-area-inset-bottom)); left: 1rem; display: inline-flex; max-width: calc(100vw - 6rem); min-height: 52px; align-items: center; gap: .65rem; padding: .55rem .65rem .55rem 1rem; border: 1px solid rgba(255, 255, 255, .25); border-radius: 999px; background: linear-gradient(135deg, var(--sage-dark), #526b56); color: #fffefa; font-size: .88rem; font-weight: 700; text-decoration: none; box-shadow: 0 12px 30px rgba(36, 52, 40, .24); }
       .mobile-contact-cta:focus-visible { outline: 3px solid var(--focus); outline-offset: 4px; }
       .mobile-contact-arrow { display: grid; width: 30px; height: 30px; flex: 0 0 auto; place-items: center; border: 1px solid rgba(255, 255, 255, .24); border-radius: 50%; background: rgba(255, 255, 255, .1); }
