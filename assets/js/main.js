@@ -6,6 +6,8 @@
   const languageTrigger = document.querySelector(".language-trigger");
   const languageOptions = document.querySelector(".language-options");
   const languageOptionButtons = document.querySelectorAll(".language-option");
+  const languageGate = document.querySelector(".language-gate");
+  const languageGateOptionButtons = document.querySelectorAll(".language-gate-option");
   const languageCurrent = document.querySelector(".language-current");
   const originalTextNodes = new WeakMap();
   const originalAttributes = new WeakMap();
@@ -144,6 +146,29 @@
     });
 
     translatePage("fr");
+  }
+
+  if (languageGate && typeof languageGate.showModal === "function") {
+    languageGate.addEventListener("cancel", (event) => event.preventDefault());
+    languageGateOptionButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const language = button.getAttribute("data-language");
+        if (!supportedLanguages.has(language)) return;
+
+        translatePage(language);
+        languageGate.close();
+        if (window.location && window.location.hash && window.history) {
+          window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}`);
+        }
+        window.scrollTo({ top: 0, behavior: "instant" });
+
+        const homeHeading = document.querySelector("#hero-title");
+        if (homeHeading) homeHeading.focus({ preventScroll: true });
+      });
+    });
+
+    languageGate.showModal();
+    if (languageGateOptionButtons.length) languageGateOptionButtons[0].focus();
   }
 
   const menuToggle = document.querySelector(".menu-toggle");

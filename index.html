@@ -38,6 +38,55 @@
   <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
+  <dialog class="language-gate" aria-labelledby="language-gate-title" aria-describedby="language-gate-description">
+    <div class="language-gate-content">
+      <span class="language-gate-mark" aria-hidden="true">N</span>
+      <p class="language-gate-label">WELCOME</p>
+      <h1 id="language-gate-title">Choose your language</h1>
+      <p class="language-gate-description" id="language-gate-description">Select your preferred language to continue.</p>
+      <div class="language-gate-options" role="group" aria-label="Choose a language">
+        <button class="language-gate-option" type="button" data-language="fr" aria-label="Continue in French">
+          <span class="language-gate-flag-wrap" aria-hidden="true">
+            <svg class="language-gate-flag" viewBox="0 0 60 40">
+              <path fill="#1b3f8b" d="M0 0h20v40H0z"></path>
+              <path fill="#fff" d="M20 0h20v40H20z"></path>
+              <path fill="#ed2939" d="M40 0h20v40H40z"></path>
+            </svg>
+          </span>
+          <span class="language-gate-name">Français</span>
+          <span class="language-gate-arrow" aria-hidden="true">↗</span>
+        </button>
+        <button class="language-gate-option" type="button" data-language="en" aria-label="Continue in English">
+          <span class="language-gate-flag-wrap" aria-hidden="true">
+            <svg class="language-gate-flag" viewBox="0 0 60 40">
+              <defs><clipPath id="language-gate-uk-clip"><path d="M0 0h60v40H0z"></path></clipPath></defs>
+              <g clip-path="url(#language-gate-uk-clip)">
+                <path fill="#012169" d="M0 0h60v40H0z"></path>
+                <path stroke="#fff" stroke-width="8" d="m0 0 60 40M60 0 0 40"></path>
+                <path stroke="#c8102e" stroke-width="3.5" d="m0 0 60 40M60 0 0 40"></path>
+                <path stroke="#fff" stroke-width="13" d="M30 0v40M0 20h60"></path>
+                <path stroke="#c8102e" stroke-width="7" d="M30 0v40M0 20h60"></path>
+              </g>
+            </svg>
+          </span>
+          <span class="language-gate-name">English</span>
+          <span class="language-gate-arrow" aria-hidden="true">↗</span>
+        </button>
+        <button class="language-gate-option" type="button" data-language="de" aria-label="Continue in German">
+          <span class="language-gate-flag-wrap" aria-hidden="true">
+            <svg class="language-gate-flag" viewBox="0 0 60 40">
+              <path fill="#111" d="M0 0h60v13.33H0z"></path>
+              <path fill="#d00" d="M0 13.33h60v13.34H0z"></path>
+              <path fill="#ffce00" d="M0 26.67h60V40H0z"></path>
+            </svg>
+          </span>
+          <span class="language-gate-name">Deutsch</span>
+          <span class="language-gate-arrow" aria-hidden="true">↗</span>
+        </button>
+      </div>
+      <span class="language-gate-note">You can change it anytime.</span>
+    </div>
+  </dialog>
   <a class="skip-link" href="#contenu">Aller au contenu</a>
   <header class="site-header">
     <nav class="container nav-wrap" aria-label="Navigation principale">
@@ -83,7 +132,7 @@
       <div class="container hero-grid">
         <div>
           <p class="eyebrow">Actuellement à Balen, en Belgique</p>
-          <h1 id="hero-title">Bonjour ! Je suis <em>Nambinintsoa</em>, votre futur au pair attentionné.</h1>
+          <h1 id="hero-title" tabindex="-1">Bonjour ! Je suis <em>Nambinintsoa</em>, votre futur au pair attentionné.</h1>
           <p class="hero-copy">Je suis déjà au pair en Belgique, où j’accompagne deux enfants de 5 et 8 ans au quotidien. Je pourrai rejoindre une nouvelle famille à partir de juin 2027.</p>
           <div class="availability-panel" role="group" aria-label="Ma situation et mes disponibilités">
             <div class="availability-item">

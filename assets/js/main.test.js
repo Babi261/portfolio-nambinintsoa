@@ -837,6 +837,33 @@ test("le sélecteur traduit le contenu et les libellés accessibles dans les tro
   assert.equal(ogTitleMeta.getAttribute("content"), "Nambinintsoa — Au pair en Belgique");
 });
 
+test("le choix initial de langue ouvre l’accueil dans la langue sélectionnée", () => {
+  const document = createDocument();
+  const languageGate = new FakeElement();
+  const heroHeading = new FakeElement();
+  const languageButtons = ["fr", "en", "de"].map((language) => new FakeElement({
+    attributes: { "data-language": language },
+  }));
+  document.elements.set(".language-gate", languageGate);
+  document.elements.set("#hero-title", heroHeading);
+  document.collections.set(".language-gate-option", languageButtons);
+
+  const window = runScript(document);
+  assert.equal(languageGate.showModalCount, 1);
+  assert.equal(languageButtons[0].focusCount, 1);
+
+  const cancelEvent = languageGate.dispatch("cancel");
+  assert.equal(cancelEvent.defaultPrevented, true);
+  assert.equal(languageGate.open, true);
+
+  languageButtons[1].click();
+  assert.equal(document.documentElement.lang, "en");
+  assert.equal(document.title, "Nambinintsoa — Au Pair in Belgium");
+  assert.equal(languageGate.open, false);
+  assert.equal(heroHeading.focusCount, 1);
+  assert.deepEqual(window.lastScroll, { top: 0, behavior: "instant" });
+});
+
 test("la FAQ avant le pied de page est traduite dans les trois langues et présente la future famille d’accueil", () => {
   const html = fs.readFileSync(path.join(__dirname, "..", "..", "index.html"), "utf8");
   const faq = html.match(/<section class="faq"[\s\S]*?<\/section>/)?.[0];

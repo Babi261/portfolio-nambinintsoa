@@ -57,6 +57,7 @@ portfolio-nambinintsoa/
 - `assets/js/main.js` gère les interactions; les mises à jour liées au défilement sont regroupées avec `requestAnimationFrame`.
 - `assets/js/translations.js` contient les traductions anglaises et allemandes, le français étant la langue source du HTML.
 - `assets/js/main.test.js` vérifie les interactions et les traductions avec le module natif `node:test`.
+- À chaque ouverture, une fenêtre modale demande de choisir le français, l’anglais ou l’allemand avant d’accéder à l’accueil. La langue peut ensuite être modifiée dans la navigation.
 
 Les fichiers PDF ont été déplacés de `PDF/` vers `assets/documents/`. Tout fichier placé dans `assets/documents/` sera publié avec le site. Le bouton de la section « À propos » ouvre `Nambinintsoa-CV.pdf`.
 
