@@ -102,6 +102,17 @@ class FakeElement {
     this.focusCount += 1;
   }
 
+  cloneNode() {
+    const clone = new FakeElement({
+      attributes: Object.fromEntries(this.attributes),
+      dataset: { ...this.dataset },
+      textContent: this.textContent,
+      id: this.id,
+    });
+    clone.tagName = this.tagName;
+    return clone;
+  }
+
   showModal() {
     this.open = true;
     this.showModalCount = (this.showModalCount || 0) + 1;
@@ -216,7 +227,11 @@ test("le script fonctionne avec le DOM complet", () => {
 
   const profileCard = new FakeElement({ dataset: { profile: "experience" } });
   profileCard.children.set(".profile-title", new FakeElement({ textContent: "Expérience" }));
-  profileCard.children.set(".card-icon", new FakeElement({ textContent: "🎓" }));
+  const cardIcon = new FakeElement();
+  const cardIconGraphic = new FakeElement();
+  cardIconGraphic.tagName = "SVG";
+  cardIcon.children.set("svg", cardIconGraphic);
+  profileCard.children.set(".card-icon", cardIcon);
   const profileTemplate = { content: { cloneNode: () => ({ cloned: true }) } };
   const profileDialog = new FakeElement();
   const profileTitle = new FakeElement();
@@ -274,7 +289,7 @@ test("le script fonctionne avec le DOM complet", () => {
 
   profileCard.click();
   assert.equal(profileTitle.textContent, "Expérience");
-  assert.equal(profileIcon.textContent, "🎓");
+  assert.equal(profileIcon.content.tagName, "SVG");
   assert.deepEqual(profileContent.content, { cloned: true });
   assert.equal(profileDialog.open, true);
   assert.equal(profileClose.focusCount, 1);
@@ -890,4 +905,34 @@ test("la FAQ avant le pied de page est traduite dans les trois langues et prése
   assert.ok(hostFamilyAnswer, "la réponse précise la recherche d’une future famille d’accueil");
   assert.match(context.window.portfolioTranslations.en[hostFamilyAnswer], /host family/);
   assert.match(context.window.portfolioTranslations.de[hostFamilyAnswer], /Gastfamilie/);
+});
+
+test("les cartes de profil ont des icônes SVG et les onglets de routine restent traduits", () => {
+  const html = fs.readFileSync(path.join(__dirname, "..", "..", "index.html"), "utf8");
+  const profileIcons = Array.from(
+    html.matchAll(/<span class="card-icon"[^>]*>([\s\S]*?)<\/span>/g),
+    (match) => match[1],
+  );
+  assert.equal(profileIcons.length, 4);
+  profileIcons.forEach((icon) => assert.match(icon, /^<svg\b/));
+
+  const schoolTab = html.match(/<button class="routine-tab" id="tab-school"[^>]*>([\s\S]*?)<\/button>/)?.[1];
+  const holidayTab = html.match(/<button class="routine-tab" id="tab-holiday"[^>]*>([\s\S]*?)<\/button>/)?.[1];
+  assert.match(schoolTab, /<svg\b/);
+  assert.match(holidayTab, /<svg\b/);
+  assert.match(schoolTab, /<span>Jour d’école<\/span>/);
+  assert.match(holidayTab, /<span>Mercredi, week-end &amp; vacances<\/span>/);
+
+  const context = { window: {} };
+  vm.runInNewContext(fs.readFileSync(path.join(__dirname, "translations.js"), "utf8"), context);
+  assert.equal(context.window.portfolioTranslations.en["Jour d’école"], "School day");
+  assert.equal(context.window.portfolioTranslations.de["Jour d’école"], "Schultag");
+  assert.equal(
+    context.window.portfolioTranslations.en["Mercredi, week-end & vacances"],
+    "Wednesday, weekends & holidays",
+  );
+  assert.equal(
+    context.window.portfolioTranslations.de["Mercredi, week-end & vacances"],
+    "Mittwoch, Wochenende & Ferien",
+  );
 });

@@ -365,10 +365,11 @@
       if (!profileDialog.open || !profileDialogTrigger || !activeProfileTemplate) return;
       const title = profileDialogTrigger.querySelector(".profile-title");
       const icon = profileDialogTrigger.querySelector(".card-icon");
-      if (!title || !icon) return;
+      const iconGraphic = icon && icon.querySelector("svg");
+      if (!title || !iconGraphic) return;
 
       profileDialogTitle.textContent = title.textContent;
-      profileDialogIcon.textContent = icon.textContent;
+      profileDialogIcon.replaceChildren(iconGraphic.cloneNode(true));
       profileDialogContent.replaceChildren(activeProfileTemplate.content.cloneNode(true));
     };
 
@@ -379,14 +380,15 @@
           : null;
         const title = card.querySelector(".profile-title");
         const icon = card.querySelector(".card-icon");
+        const iconGraphic = icon && icon.querySelector("svg");
 
-        if (!template || !title || !icon || !template.content) return;
+        if (!template || !title || !iconGraphic || !template.content) return;
 
         profileDialogTrigger = card;
         activeProfileTemplate = template;
         profileDialogScrollY = window.scrollY;
         profileDialogTitle.textContent = title.textContent;
-        profileDialogIcon.textContent = icon.textContent;
+        profileDialogIcon.replaceChildren(iconGraphic.cloneNode(true));
         profileDialogContent.replaceChildren(template.content.cloneNode(true));
         profileDialog.showModal();
         profileDialogClose.focus({ preventScroll: true });
